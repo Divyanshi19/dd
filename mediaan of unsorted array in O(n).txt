@@ -1,0 +1,57 @@
+#include <iostream>
+
+using namespace std;
+int partition(int *a, int l, int h)
+{
+    int p=a[h];
+    int i=(l-1);
+    for(int j=l ; j<=h-1 ; j++)
+    {
+        if(a[j]<p)
+        {
+            i++;
+            swap(a[i],a[j]);
+        }
+    }
+    swap(a[i+1],a[h]);
+    return (i+1);
+}
+int quick(int *a , int l , int h , int k)
+{
+    if(l<=h)
+    {
+        int p=partition(a,l,h);
+        if(p==k)
+            return p;
+        if(p<k)
+            return quick(a,p+1,h,k);
+        else
+            return quick(a,l,p-1,k);
+    }
+}
+int main()
+{
+    cout<<"Enter the limit: ";
+  int n;
+  cin>>n;
+  int a[n];
+  cout<<"Enter the array: ";
+  for(int i=0 ; i<n ; i++)
+  {
+      cin>>a[i];
+  }
+  double median=0.0;
+  if(n&1)
+  {
+      int m=quick(a,0,n-1,n/2);
+      median=0.0+a[m];
+  }
+  else
+  {
+      int m1=quick(a,0,n-1,n/2-1);
+      int m2=quick(a,0,n-1,n/2);
+      median=(a[m1]+a[m2])/2.0;
+  }
+  cout<<"Answer is: "<<median<<endl;
+    return 0;
+}
